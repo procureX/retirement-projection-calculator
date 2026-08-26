@@ -52,3 +52,35 @@ export async function getUserById(id: number): Promise<User> {
   if (!res.ok) throw new Error("Failed to fetch user");
   return res.json();
 }
+
+export async function updateUser(
+  id: number,
+  data: {
+    firstName: string;
+    lastName: string;
+    age: number;
+    currentSalary: number;
+  }
+): Promise<void> {
+  const res = await fetch(`${API_URL}/${id}`, {
+    method: "PUT",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(data),
+  });
+
+  if (!res.ok) {
+    throw new Error("Failed to update user");
+  }
+}
+
+export async function deleteUser(id: number): Promise<void> {
+  const res = await fetch(`${API_URL}/${id}`, {
+    method: "DELETE",
+  });
+
+  if (!res.ok) {
+    throw new Error("Failed to delete user");
+  }
+}
