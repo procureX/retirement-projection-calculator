@@ -92,5 +92,16 @@ namespace RetirementProjectionCalculator.Api.Controllers {
 
             return (years, balances);
         }
+
+        // DELETE: api/RetirementProjections/{id}
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> Delete(int id) {
+            var projection = await _db.RetirementProjections.FindAsync(id);
+            if (projection is null)
+            return NotFound($"Projection with ID {id} not found.");
+            _db.RetirementProjections.Remove(projection);
+            await _db.SaveChangesAsync();
+            return NoContent();
+        }
     }
 }
