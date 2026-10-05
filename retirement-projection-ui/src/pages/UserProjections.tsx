@@ -103,7 +103,20 @@ export default function UserProjections() {
                 Delete Projection
               </button>
 
-              <ProjectionChart years={p.years} balances={p.balances} />
+              <Link to={`/users/${id}/projections/${p.id}/edit`}
+              style={{
+                padding: "0.5rem 1rem",
+                background: "#ffc107",
+                color: "black",
+                borderRadius: "6px",
+                textDecoration: "none",
+                marginRight: "1rem",
+              }}
+            >
+              Edit Projection
+            </Link>
+
+            <ProjectionChart years={p.years} balances={p.balances} />
             </div>
           ))}
         </div>

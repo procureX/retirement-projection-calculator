@@ -33,3 +33,25 @@ export async function deleteProjection(id: number): Promise<void> {
     throw new Error("Failed to delete projection");
   }
 }
+
+export async function updateProjection(id: number, dto: any): Promise<void> {
+  const res = await fetch(`${API_URL}/RetirementProjections/${id}`, {
+    method: "PUT",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(dto),
+  });
+
+  if (!res.ok) {
+    throw new Error("Failed to update projection");
+  }
+}
+
+export async function getProjectionById(id: number) {
+  const res = await fetch(`${API_URL}/RetirementProjections/${id}`);
+
+  if (!res.ok) {
+    throw new Error("Failed to load projection");
+  }
+
+  return res.json();
+}
