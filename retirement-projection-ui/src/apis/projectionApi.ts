@@ -24,3 +24,12 @@ export async function getProjectionsForUser(userId: number) {
   return res.json();
 }
 
+export async function deleteProjection(id: number): Promise<void> {
+  const res = await fetch(`${API_URL}/RetirementProjections/${id}`, {
+    method: "DELETE",
+  });
+
+  if (!res.ok) {
+    throw new Error("Failed to delete projection");
+  }
+}

@@ -76,7 +76,7 @@ export async function updateUser(
 }
 
 export async function deleteUser(id: number): Promise<void> {
-  const res = await fetch(`${API_URL}/${id}`, {
+  const res = await fetch(`${API_URL}/Users/${id}`, {
     method: "DELETE",
   });
 

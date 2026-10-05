@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useParams, Link } from "react-router-dom";
 import { getUserById } from "../apis/userApi";
-import { getProjectionsForUser } from "../apis/projectionApi";
+import { getProjectionsForUser, deleteProjection } from "../apis/projectionApi";
 import type { User } from "../apis/userApi";
 import ProjectionChart from "../components/ProjectionChart";
 
@@ -79,6 +79,30 @@ export default function UserProjections() {
           {projections.map((p) => (
             <div key={p.id} style={{ marginBottom: "2rem", minHeight: "300px" }}>
               <h3>Projection #{p.id}</h3>
+
+              <button
+                onClick={async () => {
+                  try {
+                    await deleteProjection(p.id);
+                    setProjections(prev => prev.filter(x => x.id !== p.id));
+                  } catch (err) {
+                    console.error(err);
+                    alert("Failed to delete projection.");
+                  }
+                }}
+                style={{
+                  padding: "0.5rem 1rem",
+                  background: "#dc3545",
+                  color: "white",
+                  borderRadius: "6px",
+                  border: "none",
+                  cursor: "pointer",
+                  marginBottom: "1rem",
+                }}
+              >
+                Delete Projection
+              </button>
+
               <ProjectionChart years={p.years} balances={p.balances} />
             </div>
           ))}
@@ -89,3 +113,4 @@ export default function UserProjections() {
     </div>
   );
 }
+
