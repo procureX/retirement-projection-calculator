@@ -103,5 +103,33 @@ namespace RetirementProjectionCalculator.Api.Controllers {
             await _db.SaveChangesAsync();
             return NoContent();
         }
+        
+        // PUT: api/RetirementProjections/{id}
+        [HttpPut("{id}")]
+        public async Task<IActionResult> Update(int id, [FromBody] CreateProjectionDto dto) {
+            var projection = await _db.RetirementProjections.FindAsync(id);
+            if (projection is null)
+            return NotFound($"Projection with ID {id} not found.");
+
+            var user = await _db.Users.FindAsync(dto.UserId);
+            if (user is null)
+            return BadRequest($"User with ID {dto.UserId} does not exist.");
+            
+            var (years, balances) = CalculateProjection(
+                user.Age,
+                dto.RetirementAge,
+                dto.AnnualContribution,
+                dto.ExpectedReturnRate
+            );
+            
+            projection.RetirementAge = dto.RetirementAge;
+            projection.AnnualContribution = dto.AnnualContribution;
+            projection.ExpectedReturnRate = dto.ExpectedReturnRate;
+            projection.Years = years;
+            projection.Balances = balances;
+            
+        await _db.SaveChangesAsync();
+        return NoContent();
+        }
     }
 }
